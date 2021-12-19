@@ -84,6 +84,7 @@ docker run -it -v $(pwd)/loot:/Log4jCenter/loot -p 1389:1389 -p 8090:8090 log4jc
 
 # Notes
 
+* For some unkown reason, the reverse shell payload may not fire after first run of the script. You may have to run the exploit a few times to get the callback. Going to explore this and include a fix in a future release. 
 * Included in the utils directory is the repository [vcenter_saml_login](https://github.com/horizon3ai/vcenter_saml_login). You can use this in combination with the e flag to exfiltrate the vCenter SAML signing database and generate an administrative login cookie for vSphere. You will need to install requirements separately.
 * For defenders, you can mitigate this issue using a patch coming soon or the workaround detailed [here](https://kb.vmware.com/s/article/87081)
 
