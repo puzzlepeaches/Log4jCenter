@@ -1,0 +1,6 @@
+[submodule "utils/rogue-jndi"]
+	path = utils/rogue-jndi
+	url = https://github.com/veracode-research/rogue-jndi
+[submodule "utils/vcenter_saml_login"]
+	path = utils/vcenter_saml_login
+	url = https://github.com/horizon3ai/vcenter_saml_login
