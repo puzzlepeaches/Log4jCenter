@@ -1,4 +1,7 @@
 #!/usr/env python3
+
+# Source: https://gist.githubusercontent.com/touilleMan/eb02ea40b93e52604938/raw/b5b9858a7210694c8a66ca78cfed0b9f6f8b0ce3/SimpleHTTPServerWithUpload.py
+
 import http.server
 import socketserver
 import io
