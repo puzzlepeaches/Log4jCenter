@@ -2,7 +2,7 @@
 
 Exploiting CVE-2021-44228 in vCenter for remote code execution and more. Blog post detailing exploitation linked below:
 
-* COMING SOON
+* [How to exploit Log4j vulnerabilities in VMWare vCenter](https://www.sprocketsecurity.com/blog/how-to-exploit-log4j-vulnerabilities-in-vmware-vcenter)
 
 # Why?
 
